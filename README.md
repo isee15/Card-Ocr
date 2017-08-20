@@ -45,8 +45,8 @@ trainFont(fontName, fontPath, fontsize, txt, "eng", 0, autoBox=1)
 用kerastrain.py进行预测识别
 训练的结果有时候3和5能分清，有时候分不清。
 因为没有支持CUDA的显卡，用的CPU训练。
-![识别比对](./sample2.png)
-![识别比对](./sample3.png)
+![识别比对](./sample2.png=240x)
+![识别比对](./sample3.png=240x)
 
 # 效果
 
