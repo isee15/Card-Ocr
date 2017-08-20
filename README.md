@@ -38,6 +38,15 @@ trainFont(fontName, fontPath, fontsize, txt, "eng", 0, autoBox=1)
 ```
  pytesseract.image_to_string(image, lang='ocrb', config=tessdata_dir_config)
 ```
+# Keras
+除了用tesseract，也可以用机器学习的方式训练识别。这里用了Keras with Tensorflow，"开头两套双卷积池化层，后面接一个 dropout 防过拟合，再接两个全链接层，最后一个 softmax 输出结果。"
+使用genData.py生成train数据。
+截取身份证号之后的图片分割成18个图片，x-predict.png
+用kerastrain.py进行预测识别
+训练的结果有时候3和5能分清，有时候分不清。
+因为没有支持CUDA的显卡，用的CPU训练。
+![识别比对](./sample2.png)
+![识别比对](./sample3.png)
 
 # 效果
 
@@ -51,3 +60,4 @@ trainFont(fontName, fontPath, fontsize, txt, "eng", 0, autoBox=1)
 # 引用
 * https://github.com/JinpengLI/deep_ocr/
 * http://blog.csdn.net/zhangxb35/article/details/47979939
+* https://www.qcloud.com/community/article/606773
