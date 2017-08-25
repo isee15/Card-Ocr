@@ -62,3 +62,4 @@ trainFont(fontName, fontPath, fontsize, txt, "eng", 0, autoBox=1)
 * https://github.com/JinpengLI/deep_ocr/
 * http://blog.csdn.net/zhangxb35/article/details/47979939
 * https://www.qcloud.com/community/article/606773
+* https://github.com/duerig/laser-dewarp/
