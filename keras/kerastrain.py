@@ -7,6 +7,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+import keras
 from keras.layers import Input, Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from keras.models import Model, load_model
 from keras.preprocessing.image import ImageDataGenerator
@@ -17,11 +18,11 @@ train_data_dir = os.path.join(data_dir, 'train')
 test_data_dir = os.path.join(data_dir, 'test')
 
 # dimensions of our images.
-img_width, img_height = 64, 64
+img_width, img_height = 28, 28
 charset_size = 11
 nb_validation_samples = 11
 nb_samples_per_epoch = 11
-nb_nb_epoch = 4;
+nb_nb_epoch = 20
 txt = "0123456789X"
 
 
@@ -47,8 +48,8 @@ def train(model):
         color_mode="grayscale",
         class_mode='categorical')
 
-    model.compile(loss='categorical_crossentropy',
-                  optimizer='rmsprop',
+    model.compile(loss=keras.losses.categorical_crossentropy,
+                  optimizer=keras.optimizers.SGD(),
                   metrics=['accuracy'])
     model.fit_generator(train_generator,
                         steps_per_epoch=nb_samples_per_epoch,
@@ -57,22 +58,19 @@ def train(model):
                         validation_steps=nb_validation_samples)
 
 
-def build_model(include_top=True, input_shape=(64, 64, 1), classes=charset_size):
+def build_model(input_shape=(28, 28, 1), classes=charset_size):
     img_input = Input(shape=input_shape)
     x = Conv2D(32, (3, 3), activation='relu', padding='same', name='block1_conv1')(img_input)
-    x = Conv2D(32, (3, 3), activation='relu', padding='same', name='block1_conv2')(x)
+    x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
-    x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block2_conv1')(x)
-    x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block2_conv2')(x)
-    x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
-
-    if include_top:
-        x = Flatten(name='flatten')(x)
-        x = Dropout(0.05)(x)
-        x = Dense(1024, activation='relu', name='fc2')(x)
-        x = Dense(classes, activation='softmax', name='predictions')(x)
+    x = Dropout(0.25)(x)
+    x = Flatten(name='flatten')(x)
+    x = Dense(128, activation='relu', name='fc2')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(classes, activation='softmax', name='predictions')(x)
 
     model = Model(img_input, x, name='model')
+    # 训练的正确率和误差，acc和loss 验证集正确率和误差val_acc和val_loss
     return model
 
 
@@ -90,7 +88,7 @@ model.save("./model.h5")
 # model = load_model("./model.h5")
 
 
-def squareImage(image, size=(64, 64)):
+def squareImage(image, size=(28, 28)):
     wh1 = image.width / image.height
     wh2 = size[0] / size[1]
     newsize = ((int)(size[1] * wh1), (int)(size[1]))
