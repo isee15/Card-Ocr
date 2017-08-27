@@ -13,6 +13,7 @@ from keras.layers import K, Lambda, LSTM
 from keras.models import Model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array, load_img
+from keras.utils.vis_utils import plot_model
 
 data_dir = './data'
 train_data_dir = os.path.join(data_dir, 'train')
@@ -23,7 +24,7 @@ img_width, img_height = 28, 28
 charset_size = 11
 nb_validation_samples = 11
 nb_samples_per_epoch = 11
-nb_nb_epoch = 200
+nb_nb_epoch = 100
 txt = "0123456789X"
 
 hidden_units = 128
@@ -99,6 +100,7 @@ def build_model(input_shape=(28, 28, 1), classes=charset_size):
     x = Activation('softmax')(x)
     model = Model(img_input, x, name='model')
 
+    plot_model(model, show_shapes=True)
     # 训练的正确率和误差，acc和loss 验证集正确率和误差val_acc和val_loss
     return model
 
