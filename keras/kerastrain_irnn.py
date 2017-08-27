@@ -23,7 +23,7 @@ img_width, img_height = 28, 28
 charset_size = 11
 nb_validation_samples = 11
 nb_samples_per_epoch = 11
-nb_nb_epoch = 128
+nb_nb_epoch = 200
 txt = "0123456789X"
 
 hidden_units = 128
@@ -73,7 +73,9 @@ def rgb_to_grayscale_output_shape(input_shape):
 
 def build_model(input_shape=(28, 28, 1), classes=charset_size):
     img_input = Input(shape=input_shape)
-    x = Lambda(rgb_to_grayscale, rgb_to_grayscale_output_shape)(img_input)
+
+    # SimpleRNN
+    # x = Lambda(rgb_to_grayscale, rgb_to_grayscale_output_shape)(img_input)
     # x = SimpleRNN(hidden_units,
     #               kernel_initializer=initializers.RandomNormal(stddev=0.001),
     #               recurrent_initializer=initializers.Identity(gain=1.0),
@@ -83,10 +85,20 @@ def build_model(input_shape=(28, 28, 1), classes=charset_size):
     # x = Activation('softmax')(x)
     # model = Model(img_input, x, name='model')
 
+    # Hierarchical recurrent neural network
+    # x = TimeDistributed(LSTM(hidden_units))(img_input)
+    # x = LSTM(hidden_units)(x)
+    # x = Dense(charset_size)(x)
+    # x = Activation('softmax')(x)
+    # model = Model(img_input, x, name='model')
+
+    # LSTM
+    x = Lambda(rgb_to_grayscale, rgb_to_grayscale_output_shape)(img_input)
     x = LSTM(hidden_units)(x)
     x = Dense(charset_size)(x)
     x = Activation('softmax')(x)
     model = Model(img_input, x, name='model')
+
     # 训练的正确率和误差，acc和loss 验证集正确率和误差val_acc和val_loss
     return model
 
