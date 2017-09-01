@@ -63,3 +63,4 @@ trainFont(fontName, fontPath, fontsize, txt, "eng", 0, autoBox=1)
 * http://blog.csdn.net/zhangxb35/article/details/47979939
 * https://www.qcloud.com/community/article/606773
 * https://github.com/duerig/laser-dewarp/
+* http://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
