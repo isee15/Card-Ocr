@@ -12,7 +12,7 @@ from keras.layers import Input, Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from keras.models import Model, load_model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array, load_img
-
+from util import split_image
 data_dir = './data'
 train_data_dir = os.path.join(data_dir, 'train')
 test_data_dir = os.path.join(data_dir, 'test')
@@ -80,12 +80,12 @@ def decode(y):
     return ''.join([txt[x] for x in y])
 
 
-model = build_model()
-train(model)
-model.save("./model.h5")
+#model = build_model()
+#train(model)
+#model.save("./model.h5")
 
 
-# model = load_model("./model.h5")
+model = load_model("./model.h5")
 
 
 def squareImage(image, size=(28, 28)):
@@ -103,10 +103,12 @@ def squareImage(image, size=(28, 28)):
 
 fig, axes = plt.subplots(3, 6, figsize=(7, 6))
 print(axes.shape)
-for i in range(18):
+image = Image.open("37030519820727311X.png").convert("LA")
+cimgs = split_image(image)
+i = 0
+for img in cimgs:
     ii = i + 1
-    # load image to array
-    img = load_img(str(ii) + "-predict.png", grayscale=True)
+    img.save("temp/" + str(i) + "-37030519820727311X.png")
     img = squareImage(img)
     x = img_to_array(img)
     # reshape to array rank 4
@@ -117,5 +119,8 @@ for i in range(18):
     print(i)
     axes[(int)(i / 6), (int)(i % 6)].set_title('predict:%s' % (decode(y_pred)))
     axes[(int)(i / 6), (int)(i % 6)].imshow(img, cmap='gray')
+    i += 1
+
+
 plt.tight_layout()
 plt.show()
