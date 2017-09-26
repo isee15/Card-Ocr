@@ -4,15 +4,16 @@ from __future__ import print_function
 
 import os
 
+import keras
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import keras
 from keras.layers import Input, Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from keras.models import Model, load_model
 from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import img_to_array, load_img
+from keras.preprocessing.image import img_to_array
 from util import split_image
+
 data_dir = './data'
 train_data_dir = os.path.join(data_dir, 'train')
 test_data_dir = os.path.join(data_dir, 'test')
@@ -62,11 +63,12 @@ def build_model(input_shape=(28, 28, 1), classes=charset_size):
     img_input = Input(shape=input_shape)
     x = Conv2D(32, (3, 3), activation='relu', padding='same', name='block1_conv1')(img_input)
     x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2')(x)
+    x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv3')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
-    x = Dropout(0.25)(x)
+    x = Dropout(0.1)(x)
     x = Flatten(name='flatten')(x)
     x = Dense(128, activation='relu', name='fc2')(x)
-    x = Dropout(0.5)(x)
+    x = Dropout(0.1)(x)
     x = Dense(classes, activation='softmax', name='predictions')(x)
 
     model = Model(img_input, x, name='model')
@@ -80,12 +82,12 @@ def decode(y):
     return ''.join([txt[x] for x in y])
 
 
-#model = build_model()
-#train(model)
-#model.save("./model.h5")
+model = build_model()
+train(model)
+model.save("./model.h5")
 
 
-model = load_model("./model.h5")
+# model = load_model("./model.h5")
 
 
 def squareImage(image, size=(28, 28)):
@@ -101,15 +103,21 @@ def squareImage(image, size=(28, 28)):
     return img_padded
 
 
+# ocrIdCard("test1.png", "11204416541220243X")
+# ocrIdCard("test2.png", "430523197603204314")
+# ocrIdCard("test3.png", "37030519820727311X")
+# ocrIdCard("test0.png", "445281198606095334")
+
 fig, axes = plt.subplots(3, 6, figsize=(7, 6))
 print(axes.shape)
-image = Image.open("37030519820727311X.png").convert("LA")
+filename = "445281198606095334.png"
+image = Image.open(filename).convert("LA")
 cimgs = split_image(image)
 i = 0
 for img in cimgs:
     ii = i + 1
-    img.save("temp/" + str(i) + "-37030519820727311X.png")
     img = squareImage(img)
+    img.save("data/train/" + filename[i] + "/" + str(i) + "-" + filename)
     x = img_to_array(img)
     # reshape to array rank 4
     x = x.reshape((-1,) + x.shape)
@@ -120,7 +128,6 @@ for img in cimgs:
     axes[(int)(i / 6), (int)(i % 6)].set_title('predict:%s' % (decode(y_pred)))
     axes[(int)(i / 6), (int)(i % 6)].imshow(img, cmap='gray')
     i += 1
-
 
 plt.tight_layout()
 plt.show()

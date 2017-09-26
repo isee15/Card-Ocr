@@ -14,6 +14,7 @@ from keras.models import Model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array, load_img
 from keras.utils.vis_utils import plot_model
+from util import split_image
 
 data_dir = './data'
 train_data_dir = os.path.join(data_dir, 'train')
@@ -134,10 +135,13 @@ def squareImage(image, size=(28, 28)):
 
 fig, axes = plt.subplots(3, 6, figsize=(7, 6))
 print(axes.shape)
-for i in range(18):
+filename = "445281198606095334.png"
+image = Image.open(filename).convert("LA")
+cimgs = split_image(image)
+i = 0
+for img in cimgs:
     ii = i + 1
-    # load image to array
-    img = load_img(str(ii) + "-predict.png", grayscale=True)
+    img.save("data/train/" + filename[i] + "/" + str(i) + "-" + filename)
     img = squareImage(img)
     x = img_to_array(img)
     # reshape to array rank 4
@@ -148,5 +152,8 @@ for i in range(18):
     print(i)
     axes[(int)(i / 6), (int)(i % 6)].set_title('predict:%s' % (decode(y_pred)))
     axes[(int)(i / 6), (int)(i % 6)].imshow(img, cmap='gray')
+    i += 1
+
 plt.tight_layout()
 plt.show()
+
