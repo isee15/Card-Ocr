@@ -25,7 +25,7 @@ nb_validation_samples = 11
 nb_samples_per_epoch = 11
 nb_nb_epoch = 20
 txt = "0123456789X"
-
+log_filepath = '/tmp/keras_log'
 
 def train(model):
     train_datagen = ImageDataGenerator(
@@ -49,14 +49,23 @@ def train(model):
         color_mode="grayscale",
         class_mode='categorical')
 
+    model.summary()
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=keras.optimizers.SGD(),
                   metrics=['accuracy'])
+
+    tb_cb = keras.callbacks.TensorBoard(log_dir=log_filepath, write_images=1, histogram_freq=1)
+    # 设置log的存储位置，将网络权值以图片格式保持在tensorboard中显示，设置每一个周期计算一次网络的
+    # 权值，每层输出值的分布直方图
+    cbks = [tb_cb]
+
     model.fit_generator(train_generator,
                         steps_per_epoch=nb_samples_per_epoch,
                         epochs=nb_nb_epoch,
                         validation_data=validation_generator,
-                        validation_steps=nb_validation_samples)
+                        validation_steps=nb_validation_samples,
+                        callbacks=cbks)
+
 
 
 def build_model(input_shape=(28, 28, 1), classes=charset_size):
