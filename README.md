@@ -14,6 +14,19 @@ VisualStudio 2017的源码可以在Source.7z中找到<br>
 
 <img src='./ocr_vis.png' width="240">
 
+```
+
+112044165412202438      score: 0.972305<br>
+公民身份证号码  score: 0.998278<br>
+紫禁城敬事房    score: 0.994911<br>
+住址北京市东城区景山前街4号     score: 0.981174<br>
+出生1654年12月20日      score: 0.992183<br>
+民族汉  score: 0.984364<br>
+性别男  score: 0.995585<br>
+姓名 韦小宝     score: 0.91293<br>
+
+```
+
 # 依赖
 * opencv
 * pytesseract
