@@ -1,15 +1,16 @@
 Card-Ocr
 ==========
-身份证识别OCR, 从身份证图片中自动提取身份证号。
-测试图片来自百度搜索的样例图片。
-找到的图片比较少，目前都能正确识别。
-可用的数据集个人很难找到。
+身份证识别OCR, 从身份证图片中自动提取身份证号或者其他字段。<br>
+测试图片来自百度搜索的样例图片。<br>
+找到的图片比较少，目前都能正确识别。<br>
+可用的数据集个人很难找到。<br>
 
 # Update for Windows
 
-百度开源了PaddleOcr，识别中文效果很好，编译了一个Windows版本在windows目录。
-可以使用CardOcr.exe test0.png 或者CardOcr.py里面的方法调用API。
-VisualStudio 2017的源码可以在Source.7z中找到
+百度开源了PaddleOcr，识别中文效果很好，编译了一个Windows版本在windows目录。<br>
+可以使用CardOcr.exe test0.png 或者CardOcr.py里面的方法调用API。<br>
+VisualStudio 2017的源码可以在Source.7z中找到<br>
+这种方式加一些逻辑判断可以解析身份证所有字段
 <img src='./ocr_vis.png' width="240">
 
 # 依赖
