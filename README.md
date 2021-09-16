@@ -10,7 +10,8 @@ Card-Ocr
 百度开源了PaddleOcr，识别中文效果很好，编译了一个Windows版本在windows目录。<br>
 可以使用CardOcr.exe test0.png 或者CardOcr.py里面的方法调用API。<br>
 VisualStudio 2017的源码可以在Source.7z中找到<br>
-这种方式加一些逻辑判断可以解析身份证所有字段
+这种方式加一些逻辑判断可以解析身份证所有字段<br>
+
 <img src='./ocr_vis.png' width="240">
 
 # 依赖
