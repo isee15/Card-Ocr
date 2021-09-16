@@ -5,6 +5,13 @@ Card-Ocr
 找到的图片比较少，目前都能正确识别。
 可用的数据集个人很难找到。
 
+# Update for Windows
+
+百度开源了PaddleOcr，识别中文效果很好，编译了一个Windows版本在windows目录。
+可以使用CardOcr.exe test0.png 或者CardOcr.py里面的方法调用API。
+VisualStudio 2017的源码可以在Source.7z中找到
+<img src='./ocr_vis.png' width="240">
+
 # 依赖
 * opencv
 * pytesseract
