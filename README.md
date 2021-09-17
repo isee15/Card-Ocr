@@ -13,6 +13,7 @@ VisualStudio 2017的源码可以在Source.7z中找到<br>
 这种方式加一些逻辑判断可以解析身份证所有字段<br>
 
 <img src='./ocr_vis.png' width="240">
+12M模型
 
 ```
 
@@ -27,6 +28,20 @@ VisualStudio 2017的源码可以在Source.7z中找到<br>
 
 ```
 
+换140M的模型
+
+```
+The predicted text is :
+公民身份证号码11204416541220243X        score: 0.995691
+紫禁城敬事房    score: 0.998352
+住址北京市东城区景山前街4号     score: 0.999506
+出生1654年12月20日      score: 0.98693
+性别男  score: 0.999688
+民族汉  score: 0.998341
+姓名    score: 0.999685
+韦小宝  score: 0.993859
+Cost  4.20827s
+```
 # 依赖
 * opencv
 * pytesseract
